@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout">
+
+<head>
+
+	<meta charset="UTF-8"/>
+	<title>Cadastro de Títutlo</title>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/calendario.min.css"/>
+
+</head>
+
+<body>
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">
+    <img src="/docs/4.5/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+    Cobrança App
+  </a>
+  <a class="btn btn-link" href="pesquisaTitulos"><button type="button" class="btn btn-light">Pesquisar Título</button></a>
+</nav>
+	<form class="form-horizontal formulario" action="/salvarTitulo" method="post" th:object="${titulo}">
+	<h3 style="margin-bottom: 40px;">Cadastro de Título</h3>
+	<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+	<span th:text="${mensagem}"></span>
+	</div>
+	
+	<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+		<div th:each="detailedError : ${#fields.detailedErrors()}">
+			<span th:text="${detailedError.message}"></span>
+		</div>
+	</div>
+	
+    	<div class="panel panel-default">
+    		<div class="panel-heading">
+    			<h1 class="panel-title"></h1>
+    		</div>
+    		
+    		<div class="panel-body">
+    		<input type="hidden" th:field="*{codigo}"/>
+				<div class="form-group" >
+					<label for="descricao" class="col-sm-2 control-label">Descrição</label>
+					<div class="col-sm-4"> 
+						<input type="text" class="form-control" id="descricao" th:field="*{descricao}" required/>
+					</div>					
+				</div>
+				<div class="form-group" >
+					<label for="dataVencimento" class="col-sm-2 control-label">Data de vencimento</label>
+					<div class="col-sm-2">  
+						<input type=text class="form-control"	id="dataVencimento" th:field="*{dataVencimento}"
+						data-provide="datepicker" data-date-format="dd/MM/yyyy" data-date-language="pt-BR"
+						data-date-autoclose="true" data-date-today-highlight="true" data-date-orientation="right" required/>
+					</div>
+				</div>
+				<div class="form-group" >
+					<label for="valor" class="col-sm-2 control-label">Valor</label>
+					<div class="col-sm-2">   
+						<input type="text" class="form-control js-currency" id="valor" th:field="*{valor}" required/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="status" class="col-sm-2 control-label">Status</label>
+					<div class="col-sm-2">
+						<select class="form-control" th:field="*{status}">
+							<option th:each="status : ${statusTitulo}" th:value="${status}" th:text="${status.descricao}"></option>
+                    	</select>
+                    </div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-primary">Salvar</button>
+					</div>
+				</div>
+			</div>
+    	</div>
+    </form>
+
+
+	<script src="/js/jquery-3.5.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/calendario.min.js"></script>
+	<script src="/js/localeBR.min.js"></script>
+	<script src="/js/mascaraValor.min.js"></script>	
+	<script src="/js/cobranca.js"></script>	
+</body>
+</html>
